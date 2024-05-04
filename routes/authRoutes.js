@@ -3,11 +3,12 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const dbConnection = require('../config/db');
-const { authenticateToken } = require('../middleware/auth');
+// const { generateToken, comparePassword } = require('../middleware/auth');
 
 router.post('/register', async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
+        console.log(username);
         const hashedPassword = bcrypt.hashSync(password, 10);
         const query = 'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)';
         await dbConnection.query(query, [username, email, hashedPassword, role]);

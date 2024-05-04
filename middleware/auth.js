@@ -1,16 +1,13 @@
+// auth.js
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-function authenticateToken(req, res, next) {
-  const token = req.headers['authorization'];
-  if (token == null) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
-}
-
-module.exports = {
-  authenticateToken
+const generateToken = (user) => {
+    return jwt.sign({ id: user.id, username: user.username }, 12345678 , { expiresIn: '1h' });
 };
+
+const comparePassword = (password, hash) => {
+    return bcrypt.compareSync(password, hash);
+};
+
+module.exports = { generateToken, comparePassword };

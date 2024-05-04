@@ -85,7 +85,7 @@ router.post('/addtask', verifyToken, async (req, res) => {
         const { title, description, status } = req.body;
         const query = 'INSERT INTO tasks (title, description, status, user_id) VALUES (?, ?, ?, ?)';
         await dbConnection.query(query, [title, description, status, userId]);
-
+        
         res.status(201).json({ message: 'Task created successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error creating task' });
