@@ -1,18 +1,23 @@
-// app.js
 const express = require('express');
+const bodyParser = require('body-parser');
+const router = require('./routes/routes');
+
 const app = express();
-const userRoutes = require('./routes/authRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const dotenv = require('dotenv');
-
-app.use(express.json());
-dotenv.config();
-app.use('/api/users', userRoutes);
-app.use('/api/tasks', taskRoutes);
+const PORT =  3000;
 
 
+app.use(bodyParser.json());
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+// Routes
+app.use('/', router);
+
+// Error handling 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong' });
+});
+
+// Start server
+app.listen(PORT, function()  {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
