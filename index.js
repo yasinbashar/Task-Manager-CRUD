@@ -7,8 +7,8 @@ const dotenv = require('dotenv');
 
 app.use(express.json());
 dotenv.config();
-app.use('/api/users', userRoutes);
-app.use('/api/tasks', taskRoutes);
+app.use('/users', userRoutes);
+app.use('/tasks', taskRoutes);
 
 
 
